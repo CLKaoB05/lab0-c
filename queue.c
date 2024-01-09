@@ -272,10 +272,12 @@ int q_ascend(struct list_head *head)
             list_del(node);
             q_release_element(element);
         } else {
+            free(max);
             max = strdup(tmp);
             size++;
         }
     }
+    free(max);
     return size;
 }
 
@@ -321,17 +323,10 @@ int q_merge(struct list_head *head, bool descend)
     while (true) {
         q_merge_two(first->q, second->q);
         list_del(second->q);
-        // second->q = NULL;
         if (second->chain.next == head)
             break;
         else
             second = list_entry(second->chain.next, queue_contex_t, chain);
-        /*
-        if (second->chain.next == head)
-            break;
-        else
-            second = list_entry(second->chain.next, queue_contex_t, chain);
-            */
     }
 
     // https://leetcode.com/problems/merge-k-sorted-lists/
